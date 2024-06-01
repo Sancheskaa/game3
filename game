@@ -1,0 +1,37 @@
+import random
+
+def generate_secret_number():
+    digits = list(range(10))
+    random.shuffle(digits)
+    return ''.join(map(str, digits[:4]))
+
+def get_bulls_and_cows(secret, guess):
+    bulls = sum(s == g for s, g in zip(secret, guess))
+    cows = sum(s in guess for s in secret) - bulls
+    return bulls, cows
+
+def bulls_and_cows_game():
+    secret_number = generate_secret_number()
+    attempts = 0
+
+    print("Вітаю в грі 'Бики та корови'!")
+    print("Я загадав чотиризначне число. Спробуйте вгадати його.")
+    
+    while True:
+        guess = input("Ваш варіант: ")
+        
+        if len(guess) != 4 or not guess.isdigit():
+            print("Будь ласка, введіть чотиризначне число.")
+            continue
+        
+        attempts += 1
+        bulls, cows = get_bulls_and_cows(secret_number, guess)
+        
+        if bulls == 4:
+            print(f"Вітаю! Ви вгадали число {secret_number} за {attempts} спроб.")
+            break
+        else:
+            print(f"{bulls} бики, {cows} корови")
+
+if __name__ == "__main__":
+    bulls_and_cows_game()
